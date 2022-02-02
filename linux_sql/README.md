@@ -6,9 +6,9 @@ The Linux Cluster Monitoring Agent is a tool developed to monitor usage statisti
 ## Quick Start
 ### Prerequisites
 For this project you will need:
-- to be running centOS 7 (or equivalent) operating system
-- to have crontab installed on all machines and docker installed on the machine containing the database
-- this repository stored locally on all machines in the cluster
+- to be running CentOS 7 (or equivalent) operating system
+- to have crontab installed on all nodes and docker installed on the machine containing the database
+- this repository stored locally on all nodes in the cluster
 
 To start from a fresh node:
 ```bash
@@ -38,12 +38,9 @@ crontab -e
 # The tool is now set up and the host_usage table should be filling with usage data from the host machine
 ```
 
-To start on a node with the Docker container and PSQL database installed:
+To start on a node that doesn't need a PostgreSQL database:
 ```bash
 # cd to linux_sql/
-
-#start the PostgreSQL docker container
-./scripts/psql_docker.sh start
 
 #store a snapshot of the current machine's specifications
 ./scripts/host_info.sh
@@ -56,10 +53,12 @@ crontab -e
 ```
 
 ## Architecture
-Describe the architecture, provide the diagram created, and make sure to create and populate the assets directory with the correct photo.
+At the highest level, the Linux Cluster Monitoring Agent is a grouping of nodes that run CentOS 7. The main node contains a PostgreSQL instance that persists all data from all nodes in the cluster. Every node needs to be running a `bash agent`, which consists of two scripts. `host_info.sh` and `host_usage.sh` are the two scripts that the bash agent runs. `host_info.sh` only needs to be run once on a node to capture node hardware information, where as `host_usage.sh` needs to be run perpetually to store usage data of the node.
+
+![Architecture Image](https://github.com/jarviscanada/jarvis_data_eng_DanielNucci/tree/develop/linux_sql/assets/Architecture.png)
 
 ## Implementation
-Go into greater depth explaining how and why the Linux Cluster Monitoring Agent runs the way it does.
+This implementaion is a MVP (Minimum Viable Product) written in Bash and PostgreSQL. The main tools used to enable this project are `crontab`, `lscpu`, and `vmstat`. `lscpu` and `vmstat` are used to display hardware and hardware utilization. `crontab` is used to schedule scripts to run at a specified time interval. The MVP was tested in a vaccuum of only one node, but should work in a cluster environment if port configuration is correct. 
 
 ## Script Description and Usage
 ### Scripts
@@ -109,19 +108,30 @@ The `host_usage` table stores usage data for all nodes in the cluster that have 
 - `disk_io`: The number, as an integer, of disk inputs and outputs as per `vmstat` .
 - `disk_available`: The quantity of available disk space left on the node as per `df -BM`.
 
+![ER Diagram](https://github.com/jarviscanada/jarvis_data_eng_DanielNucci/tree/develop/linux_sql/assets/ERdiagram.png)
+
 ## Testing
-Hand tested all functionality as the scope of this project was relatively small. When improvements are implemented, testing will need to be more robust.
+Because this project's scope was for it to be a MVP (Minimum Viable Product), the testing was conducted on a single node. Upon moving this project to production, one would need to test other nodes posting data to the database. While this project should allow for additional nodes to be placed into the cluster, there ahs been no testing to verify this. 
+
+Testing on the individual node happened each time after a new feature was implemented. The Bash scripts were straight forward as they contain only a few functionalities per script. Once the scripts could produce expected output while not printing unexpected output, the script was considered tentatively tested. The psql commands and queries were tested after the database was populated with test data from the node. Because all data is from one machine, the psql commands and queries could need some tweaking if this moved deeper into production. After the sql commands a queries were tested, all parts of the project were assembled and functionality between the layers was checked.
 
 ## Deployment
-Deployed on a Google compute cluster that contains a psql container. 
+All scripts and related files are stored using this GitHub to allow any node that needs the files for cloning and execution. The current node is hosted using a Google Compute Engine instance with CentOS 7 running on it. The node runs a container using the `postgres:9.6-alpine` image. This hosts the PostgreSQL database on it. The node then runs a cron job by way of `crontab` to insert data into the `host_usage` table. 
 
 ## Improvements
 ### More Diagnostic Data
+The hardware usage data currently being stored suits this project as it is easy to collect from Bash. The way this project could be improved is to store more hardware information on top of what is already being stored. These data points could include metrics like: CPU temperature, active processes, memory clock speed, disk maximum I/O speed, and/or network usage. These metrics would likely be unique per use case and should be implemented should this project increase in scope.
 
 ### Implementing a Front End
-
-### Handling Changes in Hardware
+The PostgreSQL and Bash combonation on this project makes the Linux Cluster Monitoring Agent lightweight and easy to set up on all nodes. This project should, hovever, have a front end to help users to visualize or tweak data from the psql database. This also relates to the next improvement: 'Improvements Relating to Scale' as the more data added to the database, there will be a greater need for ways to view that data. To implement a front end, one could choose between swapping the database to a cloud-based option (allowing for devices outside the cluster to connect and view data) or allow only the nodes in the cluster to be able to view the database. These options would be dependent on use case and should be discussed should this project have a need to increase data visibility.
 
 ### Improvements Related to Scale
+Because this project has a small scale, the PosgreSQL database stored on one of the nodes serves it's pupose very well. However, if the scale of this project were to increase, so too would the capabilities of this system. PostgreSQL has a default limit of connections of 100. This means that if the number of nodes that exedes 100, the project would need to switch architectures. This could be done by having a database on all nodes, storing data locally, and then posting to a cloud-based database. This could scale the project likely into thousands plus of possible node connections. The use case of the project would still need to guide it in this case.
 
-### Operating System Flexibility
+### Handling Changes in Hardware
+Currently if the hardware of a computer changes, the table that stores host information does not update the entry for the node. Because hardware changes are not oft-occuring, this was not needed with the current scope. If the use case for this project had nodes with frequently changing hardware, a script to update the old entry in `host_info` and remove the outdated information from `host_usage` would need to occur. If all hardware changes were known in advance, this would take the information of the machine before the hardware swap and store it manually outside of the database local to that node. Once the hardware had been swapped the entry matching the old specifications would be updated to the current specifications and the old usage data would be removed. Without knowing hardware changes in advance would make this change more challenging but still possible.
+
+The solution previously outlined was a solution that manually had to be executed. To change the hardware specification data automatically there are many methods that could work, one of which will now be outlined. If the data on each node is guaranteed to not be corrupted or deleted, each node could store a local copy of their specifications to a local log file. At the time of posting to the database if the specifications are changed from that log file, the `host_uasge.sh` would then update the information to the current specs automatically. But as in all other improvements, this would be heavily dependant on use case.
+
+### (OS) Operating System Flexibility
+The current implementation of the Linux Cluster Monitoring Agent only works with CentOS 7 or an equivalent OS. Some use cases may require a mixture of operating systems, including Windows or MacOS. Because the PostgreSQL instance is containerized, it would be trivial to move it to any OS. main problem is that commands such as `lscpu` and `vmstat` are not available for these OS's. Once the alternatives to these tools were found for each operating system needed, the Bash scripts would check for the OS and use the correct command for that node's OS.
