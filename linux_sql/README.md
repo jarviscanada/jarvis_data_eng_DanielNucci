@@ -108,7 +108,7 @@ The `host_usage` table stores usage data for all nodes in the cluster that have 
 - `disk_io`: The number, as an integer, of disk inputs and outputs as per `vmstat`.
 - `disk_available`: The quantity of available disk space left on the node as per `df -BM`.
 
-![ER Diagram](https://raw.githubusercontent.com/jarviscanada/jarvis_data_eng_DanielNucci/tree/feature/readme/linux_sql/assets/ERdiagram.png)
+![ER Diagram](https://raw.githubusercontent.com/jarviscanada/jarvis_data_eng_DanielNucci/feature/readme/linux_sql/assets/ERdiagram.png)
 
 ## Testing
 Because this project's scope was for it to be an MVP (Minimum Viable Product), the testing was conducted on a single node. Upon moving this project to production, one would need to test other nodes posting data to the database. While this project should allow for additional nodes to be placed into the cluster, there has been no testing to verify this. 
