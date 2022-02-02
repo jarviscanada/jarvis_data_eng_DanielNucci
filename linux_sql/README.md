@@ -55,27 +55,27 @@ crontab -e
 ## Architecture
 At the highest level, the Linux Cluster Monitoring Agent is a grouping of nodes that run CentOS 7. The main node contains a PostgreSQL instance that persists all data from all nodes in the cluster. Every node needs to be running a `bash agent`, which consists of two scripts. `host_info.sh` and `host_usage.sh` are the two scripts that the bash agent runs. `host_info.sh` only needs to be run once on a node to capture node hardware information, whereas `host_usage.sh` needs to be run perpetually to store node usage data.
 
-![Architecture Image](https://raw.githubusercontent.com/jarviscanada/jarvis_data_eng_DanielNucci/feature/readme/linux_sql/assets/Architecture.png)
+![Architecture Image](./assets/Architecture.png)
 
 ## Implementation
 This implementation is an MVP (Minimum Viable Product) written in Bash and PostgreSQL. The main tools used to enable this project are `crontab`, `lscpu`, and `vmstat`. `lscpu` and `vmstat` are used to display hardware and hardware utilization. `crontab` is used to schedule scripts to run at a specified time interval. The MVP was tested in a vacuum of only one node but should work in a cluster environment if the port configuration is correct. 
 
 ## Script Description and Usage
 ### Scripts
-- [host_info.sh](https://github.com/jarviscanada/jarvis_data_eng_DanielNucci/blob/main/linux_sql/scripts/host_info.sh) is used to add host device specs to the `host_info` psql table. This script should be run on all nodes that wish to display node usage data.
+- [host_info.sh](./scripts/host_info.sh) is used to add host device specs to the `host_info` psql table. This script should be run on all nodes that wish to display node usage data.
   - usage: `host_info.sh`
 
-- [host_usage.sh](https://github.com/jarviscanada/jarvis_data_eng_DanielNucci/blob/main/linux_sql/scripts/host_usage.sh) is used to add host device usage data to the `host_usage` psql table. This script is used in combination with crontab to take snapshots every minute.
+- [host_usage.sh](./scripts/host_usage.sh) is used to add host device usage data to the `host_usage` psql table. This script is used in combination with crontab to take snapshots every minute.
   - usage: `host_usage.sh`
 
-- [psql_docker.sh](https://github.com/jarviscanada/jarvis_data_eng_DanielNucci/blob/main/linux_sql/scripts/psql_docker.sh) is used to start, stop, or create docker containers that contain the PostgreSQL database needed to store all usage and specifications for all devices in the cluster.
+- [psql_docker.sh](./scripts/psql_docker.sh) is used to start, stop, or create docker containers that contain the PostgreSQL database needed to store all usage and specifications for all devices in the cluster.
   - usage: `psql_docker.sh start|stop|create [username] [password]` (must provide username + password for create)
 
 ### SQL Files
-- [ddl.sql](https://github.com/jarviscanada/jarvis_data_eng_DanielNucci/blob/main/linux_sql/sql/ddl.sql) is used to create the two tables necessary for the Linux Cluster Monitoring Agent to store data. 
+- [ddl.sql](./sql/ddl.sql) is used to create the two tables necessary for the Linux Cluster Monitoring Agent to store data. 
   - usage: `ddl.sql`
 
-- [queries.sql](https://github.com/jarviscanada/jarvis_data_eng_DanielNucci/blob/main/linux_sql/sql/queries.sql) contains queries that can help visualize and debug data from the PostgreSQL database.
+- [queries.sql](./sql/queries.sql) contains queries that can help visualize and debug data from the PostgreSQL database.
 
 ### External Application
 - [crontab](https://linux.die.net/man/1/crontab) is a program that can schedule scripts to run at a given interval.
@@ -108,7 +108,7 @@ The `host_usage` table stores usage data for all nodes in the cluster that have 
 - `disk_io`: The number, as an integer, of disk inputs and outputs as per `vmstat`.
 - `disk_available`: The quantity of available disk space left on the node as per `df -BM`.
 
-![ER Diagram](https://raw.githubusercontent.com/jarviscanada/jarvis_data_eng_DanielNucci/feature/readme/linux_sql/assets/ERdiagram.png)
+![ER Diagram](./assets/ERdiagram.png)
 
 ## Testing
 Because this project's scope was for it to be an MVP (Minimum Viable Product), the testing was conducted on a single node. Upon moving this project to production, one would need to test other nodes posting data to the database. While this project should allow for additional nodes to be placed into the cluster, there has been no testing to verify this. 
