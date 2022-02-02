@@ -55,7 +55,7 @@ crontab -e
 ## Architecture
 At the highest level, the Linux Cluster Monitoring Agent is a grouping of nodes that run CentOS 7. The main node contains a PostgreSQL instance that persists all data from all nodes in the cluster. Every node needs to be running a `bash agent`, which consists of two scripts. `host_info.sh` and `host_usage.sh` are the two scripts that the bash agent runs. `host_info.sh` only needs to be run once on a node to capture node hardware information, whereas `host_usage.sh` needs to be run perpetually to store node usage data.
 
-![Architecture Image](https://github.com/jarviscanada/jarvis_data_eng_DanielNucci/tree/feature/readme/linux_sql/assets/Architecture.png)
+![Architecture Image](https://raw.githubusercontent.com/jarviscanada/jarvis_data_eng_DanielNucci/feature/readme/linux_sql/assets/Architecture.png)
 
 ## Implementation
 This implementation is an MVP (Minimum Viable Product) written in Bash and PostgreSQL. The main tools used to enable this project are `crontab`, `lscpu`, and `vmstat`. `lscpu` and `vmstat` are used to display hardware and hardware utilization. `crontab` is used to schedule scripts to run at a specified time interval. The MVP was tested in a vacuum of only one node but should work in a cluster environment if the port configuration is correct. 
@@ -108,7 +108,7 @@ The `host_usage` table stores usage data for all nodes in the cluster that have 
 - `disk_io`: The number, as an integer, of disk inputs and outputs as per `vmstat`.
 - `disk_available`: The quantity of available disk space left on the node as per `df -BM`.
 
-![ER Diagram](https://github.com/jarviscanada/jarvis_data_eng_DanielNucci/tree/feature/readme/linux_sql/assets/ERdiagram.png)
+![ER Diagram](https://raw.githubusercontent.com/jarviscanada/jarvis_data_eng_DanielNucci/tree/feature/readme/linux_sql/assets/ERdiagram.png)
 
 ## Testing
 Because this project's scope was for it to be an MVP (Minimum Viable Product), the testing was conducted on a single node. Upon moving this project to production, one would need to test other nodes posting data to the database. While this project should allow for additional nodes to be placed into the cluster, there has been no testing to verify this. 
