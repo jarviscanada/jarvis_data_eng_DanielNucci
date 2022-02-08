@@ -24,33 +24,32 @@ Project source code: [https://github.com/jarviscanada/jarvis_data_eng_DanielNucc
 
 
 ## Highlighted Projects
-**Touchless Mall Kiosk System**: Integrating 3 touchless technologies to create a mall kiosk that prevents the spread of SARS-CoV-2. The kiosk was fabricated to communicate to other kiosks to direct mall shoppers to their destination. I managed a 4-person team and organized workflow with a Gantt chart and assigning tasks to each member.
+**Touchless Mall Kiosk System**: Integrating 3 touchless technologies to create a mall kiosk that prevents the spread of SARS-CoV-2. The kiosk was fabricated to communicate to other kiosks to direct mall shoppers to their destination. I managed a 4-person team and organized workflow with a Gantt chart and assigned tasks to each member.
 
-**Text-Based Connect Four** [[GitHub](https://github.com/djnucci/ConnectFourClientServer)]: The game of Connect 4 put into a Client Server Java program hosted in the terminal. A queuing system was programmed to automatically pair two clients of opposite colours together to play a match of Connect Four.
+**Text-Based Connect Four** [[GitHub](https://github.com/djnucci/ConnectFourClientServer)]: The game of Connect 4 put into a Client-Server Java program hosted in the terminal. A queuing system was programmed to automatically pair two clients of opposite colours together to play a match of Connect Four.
 
-**ROPE (Rapid Online Program Evaluator)**: Produced for coders to speed up their programming prowess by challenging them to code programs. Leveraging Kubernetes and Docker, the website was automatically load balanced to accommodate needs. Users were engouraged to make accounts that are linked to their progress.
+**ROPE (Rapid Online Program Evaluator)**: Produced for coders to speed up their programming prowess by challenging them to code programs. Leveraging Kubernetes and Docker, the website was automatically load balanced to accommodate needs. Users were encouraged to make accounts that are linked to their progress.
 
 
 ## Professional Experiences
 
-**Software Developer, Jarvis (01/2022-present)**: tempus urna et pharetra pharetra massa massa ultricies mi quis hendrerit dolor magna eget est lorem ipsum dolor sit amet
+**Software Developer, Jarvis (01/2022-present)**: Developed a wide variety of applications using Java, SQL, and Bash. All projects were developed using an Agile and Scrum development environment with a two-week sprint length. Other tools such as Docker, Maven, Cron Jobs, git, and more were used to solve problems set by each project.
 
-**Engineering Outreach Instructor, Ontario Tech University (05/2019-08/2019)**: tempus urna et pharetra pharetra massa massa ultricies mi quis hendrerit dolor magna eget est lorem ipsum dolor sit amet
+**Engineering Outreach Instructor, Ontario Tech University (05/2019-08/2019)**: Taught electrical engineering curriculum at multiple education levels to high school classrooms of 25+. Tutored students on subjects ranging from the power grid to breadboard electronics / basic circuits. Developed and implemented engineering curriculum for 6 groups of high school students. Instructed campers on topics such as computer science, physics, engineering, chemistry, and forensics.
 
-**STEM Camp Counselor, W.A.F.F.L.E.S. Community Robotics (06/2016-08/2017)**: tempus urna et pharetra pharetra massa massa ultricies mi quis hendrerit dolor magna eget est lorem ipsum dolor sit amet
+**STEM Camp Counselor, W.A.F.F.L.E.S. Community Robotics (06/2016-08/2017)**: Guided 5+ FIRST robotics Lego League Jr. teams that contained a handful of children aged 7 - 14. Trained campers in Mindstorm robotics education, and 21st-century skills. Assisted campers with presenting a solution to an environmental problem. 
 
-**IT Technician, Toronto District School Board (06/2015-08/2015)**: tempus urna et pharetra pharetra massa massa ultricies mi quis hendrerit dolor magna eget est lorem ipsum dolor sit amet
+**IT Technician, Toronto District School Board (06/2015-08/2015)**: Travelled between 20+ schools in the TDSB and troubleshot issues that were encountered. Installed networking equipment, setup printers, upgraded and reformatted hundreds of Windows machines. Used command line tools to set up 25+ network switches for a hot-swap in a pre-existing network.
 
 
 ## Education
 **Ontario Tech University (2017-2021)**, Bachelor's of Software Engineering with IoT Specialization, Faculty of Engineering and Applied Science
-- Predident's list (2020)
+- President's list (2020)
 - Dean's list (2021)
 
 
 ## Miscellaneous
-- CCC (Canada Computing Competition) Senior top 25% (2017)
-- tempus urna et pharetra pharetra massa massa ultricies mi quis hendrerit dolor magna eget est lorem ipsum dolor sit amet
-- tempus urna et pharetra pharetra massa massa ultricies mi quis hendrerit dolor magna eget est lorem ipsum dolor sit amet
-- FIRST Robotics
-- Hybrid Athetics (Running, Cycling, Hypertrophy Training)
+- Achieved top 25% in the CCC (Canada Computing Competition) Senior Division (2017)
+- Volunteered as a Control Systems Advisor, Robot Inspector, and many other roles for robotics tournaments
+- Mentored students in software development on a FIRST Robotics team
+- Hybrid Athletics (Running, Cycling, Weight Training)
