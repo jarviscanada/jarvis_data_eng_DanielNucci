@@ -31,8 +31,8 @@ function validate_yaml() {
 }
 
 function get_profile_name() {
-  echo "---- Parsing metadat ----"
-  profile_name=$(docker run -it --rm -v "${PWD}":/workdir mikefarah/yq:3.3.4 yq r profile.yaml name  | xargs | tr -d '\r' | sed -e 's/ /_/g')
+  echo "---- Parsing metadata ----"
+  profile_name=$(docker run --platform linux/amd64 -it --rm -v "${PWD}":/workdir mikefarah/yq:3.3.4 yq r profile.yaml name  | xargs | tr -d '\r' | sed -e 's/ /_/g')
   profile_prefix=jarvis_profile_${profile_name}
   echo ${profile_name}
   check_status $?
@@ -40,7 +40,7 @@ function get_profile_name() {
 
 function yaml_to_json() {
   echo "---- Coverting profile YAML to JSON ----"
-  docker run --rm -v "${PWD}":/workdir mikefarah/yq:3.3.4 yq r -j --prettyPrint profile.yaml > profile.json
+  docker run --platform linux/amd64 --rm -v "${PWD}":/workdir mikefarah/yq:3.3.4 yq r -j --prettyPrint profile.yaml > profile.json
   check_status $?
 }
 
@@ -60,11 +60,11 @@ function render_pdf() {
   left_right_margin=1.5cm
   font_size=8
 
-  docker run --rm --volume "$(pwd):/data" --user $(id -u):$(id -g) pandoc/latex:2.9.2.1 \
+  pandoc \
     ${template_profile} -f markdown -t pdf -s \
     --pdf-engine=xelatex -V pagestyle=empty -V fontsize=${font_size}pt -V geometry:"top=${top_bot_margin}, bottom=${top_bot_margin}, left=${left_right_margin}, right=${left_right_margin}" -o ${output_profile_pdf}
   check_status $?
-}
+} #docker run --rm --volume "$(pwd):/data" --user $(id -u):$(id -g) --platform linux/amd64  pandoc/latex:2.17.1.1 \
 
 function overwrite_readme() {
   if ls ../README.md; then
