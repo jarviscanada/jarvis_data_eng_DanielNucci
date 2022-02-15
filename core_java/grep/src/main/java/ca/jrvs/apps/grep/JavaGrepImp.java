@@ -101,7 +101,9 @@ public class JavaGrepImp implements JavaGrep {
 		// loop through the lines and add them to the output array
 		try {
 			while ((line=br.readLine()) != null) {
-				returnLines.add(line.trim());
+				if (!line.equals("")) {
+					returnLines.add(line.trim());
+				}
 			}
 			br.close();
 		} catch (IOException e) {
@@ -131,7 +133,7 @@ public class JavaGrepImp implements JavaGrep {
 				bw = Files.newBufferedWriter(path, StandardOpenOption.CREATE);
 			}
 			for (String line: lines) {
-				bw.write(line);
+				bw.write(line.trim());
 				bw.newLine();
 			}
 			bw.close();
