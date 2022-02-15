@@ -39,8 +39,7 @@ public class JavaGrepImp implements JavaGrep {
 		}
 	}
 	
-	public JavaGrepImp() {
-	}
+	public JavaGrepImp() {}
 	
 	public JavaGrepImp(String regex, String rootPath, String outFile) {
 		this.setRegex(regex);
@@ -74,6 +73,14 @@ public class JavaGrepImp implements JavaGrep {
 			if (file.isFile()) {
 				allFiles.add(file);
 			}
+			else if (file.isDirectory()) {
+				File[] oneLayerDeepFiles = new File(file.getAbsolutePath()).listFiles();
+				for (File layerOneFile: oneLayerDeepFiles) {
+					if (layerOneFile.isFile()) {
+						allFiles.add(layerOneFile);
+					}
+				}
+			}
 		}
 		
 		return allFiles;
@@ -94,7 +101,9 @@ public class JavaGrepImp implements JavaGrep {
 		// loop through the lines and add them to the output array
 		try {
 			while ((line=br.readLine()) != null) {
-				returnLines.add(line);
+				if (!line.equals("")) {
+					returnLines.add(line.trim());
+				}
 			}
 			br.close();
 		} catch (IOException e) {
@@ -111,7 +120,7 @@ public class JavaGrepImp implements JavaGrep {
 
 	@Override
 	public void writeToFile(List<String> lines) throws IOException {
-		File outputFile = new File("./out/" + getOutFile());
+		File outputFile = new File(getOutFile());
 		Path path = Paths.get(outputFile.getPath());
 		
 		
@@ -124,7 +133,7 @@ public class JavaGrepImp implements JavaGrep {
 				bw = Files.newBufferedWriter(path, StandardOpenOption.CREATE);
 			}
 			for (String line: lines) {
-				bw.write(line);
+				bw.write(line.trim());
 				bw.newLine();
 			}
 			bw.close();
