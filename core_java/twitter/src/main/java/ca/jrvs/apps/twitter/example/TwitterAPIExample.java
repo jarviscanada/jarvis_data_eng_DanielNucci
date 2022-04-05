@@ -11,10 +11,10 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 
 public class TwitterAPIExample {
-	private static String CONSUMER_KEY;// = "GDENQbQDpn0Lql3L9B8NVq0gv";// System.getenv("consumerKey");
-	private static String CONSUMER_SECRET;// = "5F6hpBuQ4Z5cNLLnS3DjWvTnRJ41LOMZqsuMDzjmcXpMdEDfsf";// System.getenv("consumerSecret");
-	private static String ACCESS_TOKEN;// = "1489336471282753536-DC8XZkcZPu0wsYV6c1X0kKOd1AZF3O";// System.getenv("accessToken");
-	private static String TOKEN_SECRET;// = "MOOGFcNTOZMrTW9y5wbW9QtooUeOaTyMruFUejBSHyijg";// System.getenv("accessSecret");
+	private static String CONSUMER_KEY;
+	private static String CONSUMER_SECRET;
+	private static String ACCESS_TOKEN;
+	private static String TOKEN_SECRET;
 
 	public static void main(String[] args) throws Exception {
 		CONSUMER_KEY = args[0];
